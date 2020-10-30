@@ -575,8 +575,10 @@ class Login(Resource):
                 return {"msg": "Missing password parameter"}, 400
             ldap_uri = CRACK_CONF['auth']['ldap_server']
             ldap_base = CRACK_CONF['auth']['ldap_base']
+            ldap_AD = CRACK_CONF['auth']['ldap_AD']
+            ldap_netbiosName = CRACK_CONF['auth']['ldap_netbios']
             authn = auth.Ldap.authenticate(ldap_uri, username, password,
-                                           ldap_base=ldap_base)
+                                           ldap_base=ldap_base,ldap_AD=ldap_AD,ldap_netbiosName=ldap_netbiosName)
             logger.debug('LDAP reply: {}'.format(authn))
             if authn[0] == "Success":
                 logging.info('Authenticated: {}'.format(username))
