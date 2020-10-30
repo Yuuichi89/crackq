@@ -270,7 +270,7 @@ def check_jobid(job_id):
     """Check user owns the job_id"""
     # This can be disabled by setting SEE_OTHER_JOBS to True in crackq.conf
     isRestrictOff = CRACK_CONF['app']['SEE_OTHER_JOBS']
-    if isRestrictOff:
+    if isRestrictOff == "True":
         return True
     logger.debug('Checking job_id: {} belongs to user: {}'.format(
                 job_id, current_user.username))
