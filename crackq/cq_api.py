@@ -229,12 +229,12 @@ def add_jobid(job_id):
     else:
         logger.debug('No job_ids registered with current user')
         jobs = None
-    logger.info('Registering new job_id to current user: {}'.format(job_id))
+    logger.info('Registering new job_id: {} to current user: {}'.format(job_id,current_user.username))
     if isinstance(jobs, list):
         if job_id not in jobs:
             jobs.append(job_id)
         else:
-            logger.warning('job_id already registered to user: {}'.format(job_id))
+            logger.warning('job_id {} already registered to user: {}'.format(job_id,current_user.username))
     else:
         jobs = [job_id]
     user.job_ids = json.dumps(jobs)
@@ -1033,7 +1033,7 @@ class Queuing(Resource):
         else:
             job_id = marsh_schema.data['job_id'].hex
         try:
-            logger.info('Deleting job: {:s}'.format(job_id))
+            logger.info('Deleting job: {:s}. Deletion command sent by user: {}'.format(job_id,current_user.username))
             job = self.q.fetch_job(job_id)
             started = rq.registry.StartedJobRegistry('default',
                                                      connection=self.redis_con)
@@ -1428,7 +1428,8 @@ class Adder(Resource):
             if rules is False:
                 return {'msg': 'Invalid rules selected'}, 500
             try:
-                username = args['username']
+                #changed to use valid username
+                username = current_user.username
             except KeyError as err:
                 logger.debug('Username value not provided')
                 username = False
