@@ -689,7 +689,7 @@ class Crack(object):
                     logger.debug('Hashcat Abort status returned')
                     event_log = hcat.hashcat_status_get_log()
                     raise ValueError('Aborted: {}'.format(event_log))
-                elif main_counter > 1200 and hc_state != 'Running' and mask_file == False:
+                elif main_counter > 2700 and hc_state != 'Running' and mask_file == False:
                     logger.debug('Reseting job, seems to be hung')
                     raise ValueError('Error: Hashcat hung - Initialize timeout')
                 #elif 'Initializing' not in hc_state:
