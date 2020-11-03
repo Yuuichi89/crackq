@@ -1,6 +1,6 @@
 FROM nvidia/opencl:runtime-centos7
 
-RUN yum update -y && yum install -y epel-release && yum install -y gcc make clinfo opencl-headers &&\
+RUN yum update -y && yum install -y epel-release && yum install -y gcc make clinfo opencl-headers curl gcc-c++ &&\
 yum install -y python36 python36-libs python36-devel python36-pip git circus wget openldap-devel minizip-devel \
 yum update -y &&\
 yum install -y xmlsec1 xmlsec1-openssl
