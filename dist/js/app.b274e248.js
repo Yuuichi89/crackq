@@ -4750,7 +4750,7 @@
                                       ]),
                                       a("th", { attrs: { scope: "col" } }, [
                                         t._v("Running Time"),
-                                      ]),
+                                      ]),                                      
                                       a("th"),
                                     ]),
                                   ]),
@@ -4899,6 +4899,9 @@
                                       a("th", { attrs: { scope: "col" } }, [
                                         t._v("Running Time"),
                                       ]),
+                                      a("th", { attrs: { scope: "col" } }, [
+                                        t._v("Created by"),
+                                      ]),
                                       a("th"),
                                     ]),
                                   ]),
@@ -4936,6 +4939,13 @@
                                             ? a("td", [
                                                 t._v(
                                                   " " + t._s(e["Running Time"])
+                                                ),
+                                              ])
+                                            : a("td", [t._v("None")]),
+                                            e.username
+                                            ? a("td", [
+                                                t._v(
+                                                  " " + t._s(e.username)
                                                 ),
                                               ])
                                             : a("td", [t._v("None")]),

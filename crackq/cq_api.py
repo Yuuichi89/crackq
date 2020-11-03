@@ -749,17 +749,22 @@ class Queuing(Resource):
                         comp_dict[job_id]['Running Time'] = job.meta['HC State']['Running Time']
                         try:
                             comp_dict[job_id]['Name'] = get_jobdetails(job.description)['name']
+                            comp_dict[job_id]['username'] = get_jobdetails(job.description)['username']
                         except KeyError:
                             comp_dict[job_id]['Name'] = 'No name'
+                            comp_dict[job_id]['username'] = 'No name'
                         except AttributeError:
                             comp_dict[job_id]['Name'] = 'No name'
+                            comp_dict[job_id]['username'] = 'No name'
                     else:
                         comp_dict[job_id]['Name'] = job_deets['name']
+                        comp_dict[job_id]['username'] = job_deets['username']
                         comp_dict[job_id]['Cracked'] = 'All'
                         ###**update to redis job time?
                         comp_dict[job_id]['Running Time'] = '0'
                 else:
                     comp_dict[job_id]['Name'] = job_deets['name']
+                    comp_dict[job_id]['username'] = job_deets['username']
                     comp_dict[job_id]['Cracked'] = None
                     comp_dict[job_id]['Running Time'] = None
             else:
