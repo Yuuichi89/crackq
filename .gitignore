@@ -11,4 +11,5 @@ docker/build/
 *egg-info*
 *build*
 .pytest_cache
+tests/
 crackq.egg-info

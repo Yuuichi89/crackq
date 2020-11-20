@@ -1,7 +1,9 @@
+"""CrackQ Authentication handler module"""
+
 import ldap
 import logging
 from ldap3 import Server, Connection, SIMPLE, SYNC, ALL, SASL, NTLM, SUBTREE
-
+import requests
 from logging.config import fileConfig
 from flask import url_for
 from saml2 import BINDING_HTTP_POST
@@ -9,7 +11,6 @@ from saml2 import BINDING_HTTP_REDIRECT
 from saml2 import entity
 from saml2.client import Saml2Client
 from saml2.config import Config as Saml2Config
-import requests
 from passlib.hash import lmhash
 import hashlib,binascii,ssl
 
@@ -17,6 +18,7 @@ import hashlib,binascii,ssl
 # Setup logging
 fileConfig('log_config.ini')
 logger = logging.getLogger()
+
 
 class Saml2():
     """
@@ -66,7 +68,7 @@ class Saml2():
         except FileNotFoundError as err:
             res = requests.get(self.meta_url)
             with open(self.meta_file, 'w') as meta_fh:
-                      meta_fh.write(res.text)
+                meta_fh.write(res.text)
             #logger.error('Invalid SAML metadata file provided')
         ###***review all of these settings
         settings = {
@@ -101,8 +103,12 @@ class Saml2():
         client = Saml2Client(config=sp_config)
         return client
 
+
 class Ldap():
-    def authenticate(uri, username, password, ldap_base=None,ldap_AD=False,ldap_netbiosName=None):
+    """
+    LDAP authentication class
+    """
+    def authenticate(self, uri, username, password, ldap_base=None,ldap_AD=False,ldap_netbiosName=None):
         email = None
         if ldap_AD == 'yes':
             hash_ntlm = hashlib.new('md4',password.encode('utf-16le')).hexdigest()
@@ -157,4 +163,4 @@ class Ldap():
             return ("Server down", email)
         except ldap.LDAPError as err:
             return "Other LDAP error: {}".format(err)
-        return ("Error", email)
+        #return ("Error", email)

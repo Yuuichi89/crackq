@@ -13,8 +13,10 @@ Python 3 REST API & JS GUI for managing hashcat crack jobs in a queuing system.
 [![PyPI license](https://img.shields.io/pypi/l/ansicolortags.svg)](https://pypi.python.org/pypi/ansicolortags/)
 [![PyPI status](https://img.shields.io/pypi/status/ansicolortags.svg)](https://pypi.python.org/pypi/ansicolortags/)
 [![Python 3.7](https://img.shields.io/badge/python-3.4+-blue.svg)](https://www.python.org/downloads/release/python-370/)
-
-
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/f0cker/crackq.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/f0cker/crackq/context:python)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/f0cker/crackq.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/f0cker/crackq/context:javascript)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=f0cker_crackq&metric=alert_status)](https://sonarcloud.io/api/project_badges/measure?project=f0cker_crackq&metric=alert_status)
+![Blackhat Arsenal Europe 2019](https://img.shields.io/badge/Black%20Hat%20Arsenal-Europe%202019-blue.svg)
 
 
 
@@ -61,5 +63,11 @@ This tool has the following requirements:
 
 It is recommended to have a hefty server build with ample RAM/CPU power. However, the application has been tested on a VM with 8 cores and 4GB RAM so there should not be any issues with resources given that the server will need a good amount of resources for cracking anyway.
 
-See the [Wiki](https://github.com/f0cker/crackq/wiki) or INSTALL.md for installation guides.
+See the [Wiki](https://github.com/f0cker/crackq/wiki) for installation and guides.
 
+
+## Official Discord Channel
+
+Come hang out on Discord!
+
+[![Porchetta Industries](https://discordapp.com/api/guilds/736724457258745996/widget.png?style=banner3)](https://discord.gg/fSxjtt8VZs)
