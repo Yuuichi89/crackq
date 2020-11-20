@@ -501,17 +501,7 @@
                                 a(
                                   "b-nav-item-dropdown",
                                   { attrs: { text: "User", right: "" } },
-                                  [
-                                    a(
-                                      "b-dropdown-item",
-                                      { on: { click: t.showProf } },
-                                      [t._v("Profile")]
-                                    ),
-                                    a(
-                                      "b-dropdown-item",
-                                      { on: { click: t.showAdmin } },
-                                      [t._v("Admin")]
-                                    ),
+                                  [                                  
                                     a(
                                       "b-dropdown-item",
                                       { attrs: { href: "/login" } },
@@ -1176,7 +1166,7 @@
                                       ]),
                                       a("th", { attrs: { scope: "col" } }, [
                                         t._v("Job Name"),
-                                      ]),
+                                      ]),                                      
                                       a("th", { attrs: { scope: "col" } }, [
                                         t._v("Status"),
                                       ]),
@@ -1194,6 +1184,9 @@
                                       ]),
                                       a("th", { attrs: { scope: "col" } }, [
                                         t._v("ETA"),
+                                      ]),
+                                      a("th", { attrs: { scope: "col" } }, [
+                                        t._v("Created by"),
                                       ]),
                                       a("th"),
                                     ]),
@@ -1312,6 +1305,19 @@
                                                         ),
                                                       ])
                                                     : a("td", [t._v("None")]),
+                                                  e["Job Details"]
+                                                    ? a("td", [
+                                                        t._v(
+                                                          " " +
+                                                            t._s(
+                                                              e["Job Details"]
+                                                                .username
+                                                            )
+                                                        ),
+                                                      ])
+                                                    : a("td", [
+                                                        t._v("Initializing..."),
+                                                      ]),
                                                 ]
                                               );
                                             }
@@ -3961,6 +3967,9 @@
                                 a("th", { attrs: { scope: "col" } }, [
                                   t._v("ETA"),
                                 ]),
+                                a("th", { attrs: { scope: "col" } }, [
+                                  t._v("Created by"),
+                                ]),
                                 a("th"),
                               ]),
                             ]),
@@ -4072,6 +4081,16 @@
                                                 ),
                                               ])
                                             : a("td", [t._v("None")]),
+                                            e["Job Details"]
+                                            ? a("td", [
+                                                t._v(
+                                                  " " +
+                                                    t._s(e["Job Details"].username)
+                                                ),
+                                              ])
+                                            : a("td", [
+                                                t._v("Initializing..."),
+                                              ]),
                                           a("td", [
                                             a(
                                               "div",
@@ -4206,6 +4225,9 @@
                                   a("th", { attrs: { scope: "col" } }, [
                                     t._v("Cracked Hashes"),
                                   ]),
+                                  a("th", { attrs: { scope: "col" } }, [
+                                    t._v("Created by"),
+                                  ]),
                                   a("th"),
                                 ]),
                               ]),
@@ -4312,6 +4334,16 @@
                                                   e["State"]["HC State"][
                                                     "Cracked Hashes"
                                                   ]
+                                                )
+                                            ),
+                                          ])
+                                        : a("td", [t._v("None")]),
+                                        e["Job Details"].username
+                                        ? a("td", [
+                                            t._v(
+                                              " " +
+                                                t._s(
+                                                  e["Job Details"].username
                                                 )
                                             ),
                                           ])
@@ -5449,6 +5481,9 @@
                                       a("th", { attrs: { scope: "col" } }, [
                                         t._v("Error Message"),
                                       ]),
+                                      a("th", { attrs: { scope: "col" } }, [
+                                        t._v("Created by"),
+                                      ]),
                                     ]),
                                   ]),
                                   a(
@@ -5481,6 +5516,12 @@
                                             "td",
                                             e
                                               ? [t._v(" " + t._s(e.Error))]
+                                              : [t._v("None")]
+                                          ),
+                                          a(
+                                            "td",
+                                            e
+                                              ? [t._v(" " + t._s(e.username))]
                                               : [t._v("None")]
                                           ),
                                           a("td", [
