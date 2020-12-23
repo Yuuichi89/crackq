@@ -780,6 +780,8 @@ class Queuing(MethodView):
                                 logger.debug('Failed to open job file: {}'.format(err))
                         except Exception as err:
                             logger.debug('Failed to open job file: {}'.format(err))
+                except Exception:
+                    logger.debug('HC State instance error')
             else:
                 logger.error('Job is missing: {}'.format(job_id))
         return comp_dict
