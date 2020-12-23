@@ -40,8 +40,16 @@ cp ./cfg/crackq_nginx.conf /var/crackq/files/nginx/conf.d/
 cp ./cfg/crackq.hcstat /var/crackq/files/crackq.hcstat
 cp ./masks/* /var/crackq/files/masks/
 cp -r ./rules/ /var/crackq/files/
+<<<<<<< HEAD
 wget https://github.com/praetorian-inc/Hob0Rules/raw/master/wordlists/rockyou.txt.gz
 mv rockyou.txt.gz /var/crackq/files/
+=======
+if [ ! -f /var/crackq/files/rockyou.txt.gz ]
+	then
+		wget https://github.com/praetorian-inc/Hob0Rules/raw/master/wordlists/rockyou.txt.gz
+		mv rockyou.txt.gz /var/crackq/files/
+	fi
+>>>>>>> dc2014de03d515446ca60335d1654d24e67ff2b8
 # check if running tests
 if [ $TESTS ]
 	then

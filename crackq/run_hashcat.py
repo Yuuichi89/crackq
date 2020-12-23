@@ -267,8 +267,8 @@ class Crack(object):
             else:
                 logger.error('No speed job to check')
                 if job and not del_check(job):
-                        job.meta['CrackQ State'] = 'Run/Restored'
-                        job.save_meta()
+                    job.meta['CrackQ State'] = 'Run/Restored'
+                    job.save_meta()
         ###*** update this to config file path and try/except
         hc.markov_hcstat2 = "/var/crackq/files/crackq.hcstat"
         hc.custom_charset_1 = '?l?d'
@@ -576,7 +576,7 @@ class Crack(object):
                         job.meta['Speed Array'] = self.circulator(job.meta['Speed Array'],
                                                                   int(hcat_status['Speed Raw']), 180)
                         job.save_meta()
-                        job_details = cq_api.get_jobdetails(job.description)
+                        job_details = cq_api.get_jobdetails(job)
                         job_details['restore'] = hcat_status['Restore Point']
                         if 'brain_check' in job.meta:
                             job_details['brain_check'] = job.meta['brain_check']
@@ -585,6 +585,7 @@ class Crack(object):
                         job_details = json.loads(result.strip())
                     job_details['Cracked Hashes'] = sender.status_get_digests_done()
                     job_details['Total Hashes'] = sender.status_get_digests_cnt()
+                    job_details['timeout'] = job.timeout
                     result_fh.seek(0)
                     result_fh.write(json.dumps(job_details))
                     result_fh.truncate()
@@ -708,7 +709,7 @@ class Crack(object):
                     logger.debug('Hashcat Abort status returned')
                     event_log = hcat.hashcat_status_get_log()
                     raise ValueError('Aborted: {}'.format(event_log))
-                elif main_counter > 2700 and hc_state != 'Running' and mask_file == False:
+                elif main_counter > 2500 and hc_state != 'Running' and mask_file == False:
                     logger.debug('Reseting job, seems to be hung')
                     raise ValueError('Error: Hashcat hung - Initialize timeout')
                 else:
@@ -716,6 +717,7 @@ class Crack(object):
                     if 'Initializing' not in hc_state:
                         self.init_callback(hcat)
                         logger.debug('Hashcat initialized')
+                    job = redis_q.fetch_job(str(hcat.session))
                     speed_started = rq.registry.StartedJobRegistry('speed_check',
                                                                    connection=redis_con)
                     cur_speed = speed_started.get_job_ids()
@@ -744,6 +746,7 @@ class Crack(object):
                                 speed_job.delete()
                             hcat.hashcat_session_quit()
                             hcat.reset()
+                            cq_api.del_jobid(hcat.session)
                             return
                         elif job.meta['CrackQ State'] == 'Pause':
                             hcat.hashcat_session_pause()
