@@ -761,9 +761,6 @@ class Queuing(MethodView):
                         try:
                             comp_dict[job_id]['Name'] = get_jobdetails(job)['name']
                             comp_dict[job_id]['username'] = get_jobdetails(job)['username']
-                        except KeyError:
-                            comp_dict[job_id]['Name'] = 'No name'
-                            comp_dict[job_id]['username'] = 'No name'
                         except AttributeError:
                             comp_dict[job_id]['Name'] = 'No name'
                             comp_dict[job_id]['username'] = 'No name'
