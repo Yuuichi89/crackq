@@ -2,6 +2,9 @@
 
 import ldap
 import requests
+from ldap3 import Server, Connection, SIMPLE, SYNC, ALL, SASL, NTLM, SUBTREE
+from passlib.hash import lmhash
+import hashlib,binascii,ssl
 
 from crackq.logger import logger
 from flask import url_for
@@ -97,8 +100,25 @@ class Ldap():
     """
     LDAP authentication class
     """
-    def authenticate(self, uri, username, password, ldap_base=None):
+    def authenticate(self, uri, username, password, ldap_base=None,ldap_AD=False,ldap_netbiosName=None):
         email = None
+        if ldap_AD == 'yes':
+            hash_ntlm = hashlib.new('md4',password.encode('utf-16le')).hexdigest()
+            hash_lm = lmhash.hash(password)
+            password =  hash_lm +':' + hash_ntlm
+            s = Server(uri, get_info=ALL)
+            domainuser =  ldap_netbiosName + '\\' + username
+            c = Connection(s, user=domainuser, password=password, authentication=NTLM)
+            #perform Bind
+            if not c.bind():
+                logger.debug('error in bind', c.result)
+                return ("Invalid Credential", None)
+            #paged search wrapped in gen getting Mail-Address
+            entry_generator = c.extend.standard.paged_search(search_base = ldap_base, search_filter='(sAMAccountName='+username+')', search_scope= SUBTREE, attributes = ['cn', 'mail'], paged_size=5, generator=True)
+            for entry in entry_generator:
+                email = entry['attributes']['mail']
+            c.unbind()
+            return ("Success",email)
         try:
             username = ldap.dn.escape_dn_chars(username)
             password = ldap.dn.escape_dn_chars(password)
@@ -134,3 +154,4 @@ class Ldap():
             return ("Server down", email)
         except ldap.LDAPError as err:
             return "Other LDAP error: {}".format(err)
+        return ("Error", email)
