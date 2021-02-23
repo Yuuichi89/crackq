@@ -5,6 +5,7 @@ version: '2.3'
 services:
     redis:
         image: "redis:latest"
+        restart: always
         container_name: "redis"
         hostname: "redis"
         networks:
@@ -16,6 +17,7 @@ services:
             context: ./build
             dockerfile: Dockerfile
         image: "nvidia-centos"
+        restart: always
         ports:
             - "127.0.0.1:8080:8080"
         depends_on:
