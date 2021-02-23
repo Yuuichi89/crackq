@@ -126,7 +126,7 @@ class parse_json_schema(Schema):
     restore = fields.Int(validate=Range(min=0, max=1000000000000))
     user = fields.Str(allow_none=False, validate=StringContains(r'[\W]'))
     password = fields.Str(allow_none=False,
-                          validate=StringContains(r'[^\w\!\@\#\$\%\^\&\*\(\)\-\+\.\,\\\/]'))
+                          validate=StringContains(r'[^\w\!\@\#\$\%\^\&\*\(\)\-\+\?\.\,\;\*\<\:\{\}\=\"\.\§\\\\\/]'))
     confirm_password = fields.Str(allow_none=True,
                                   validate=[StringContains(r'[^\w\!\@\#\$\%\^\&\*\(\)\-\+\.\,\\\/]'),
                                             Length(min=10, max=60)])
