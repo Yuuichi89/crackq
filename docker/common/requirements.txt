@@ -19,3 +19,5 @@ Flask-Migrate==2.5.3
 bcrypt==3.2.0
 Flask-Bcrypt==0.7.1
 pathvalidate==2.3.1
+passlib==1.7.2
+ldap3==2.8.1
