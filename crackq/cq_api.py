@@ -1038,7 +1038,7 @@ class Queuing(MethodView):
             logger.debug('Validation error: {}'.format(errors))
             return errors.messages, 500
         try:
-            logger.debug('Deleting job: {:s}'.format(job_id))
+            logger.debug('Deleting job: {:s}. Deletion command sent by user: {}'.format(job_id,current_user.username))
             job = self.q.fetch_job(job_id)
             started = rq.registry.StartedJobRegistry(queue=self.q)
             cur_list = started.get_job_ids()
@@ -1467,7 +1467,8 @@ class Adder(MethodView):
             if rules is False:
                 return {'msg': 'Invalid rules selected'}, 500
             try:
-                username = args['username']
+                #changed to use valid ldap username
+                username = current_user.username
             except KeyError as err:
                 logger.debug('Username value not provided')
                 username = False
