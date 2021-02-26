@@ -678,7 +678,7 @@ def hc_worker(crack=None, hash_file=None, session=None,
                 logger.debug('Hashcat Abort status returned')
                 event_log = hcat.hashcat_status_get_log()
                 raise ValueError('Aborted: {}'.format(event_log))
-            elif main_counter > 2000 and hc_state != 'Running' and mask_file == False:
+            elif main_counter > 6000 and hc_state != 'Running' and mask_file == False:
                 logger.debug('Reseting job, seems to be hung')
                 raise ValueError('Error: Hashcat hung - Initialize timeout')
             else:
