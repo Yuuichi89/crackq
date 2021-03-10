@@ -8,21 +8,55 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, Column, ForeignKey
 from sqlalchemy.types import (
     Boolean,
+    CHAR,
+    TypeDecorator,
     DateTime,
     Integer,
     JSON,
     String,
     Unicode,
     )
-from sqlalchemy_utils import UUIDType
+from sqlalchemy.dialects.postgresql import UUID
 from crackq.db import db
 
+
+class GUID(TypeDecorator):
+    """Platform-independent GUID type.
+    Uses PostgreSQL's UUID type, otherwise uses
+    CHAR(32), storing as stringified hex values.
+    """
+    impl = CHAR
+
+    def load_dialect_impl(self, dialect):
+        if dialect.name == 'postgresql':
+            return dialect.type_descriptor(UUID())
+        else:
+            return dialect.type_descriptor(CHAR(32))
+
+    def process_bind_param(self, value, dialect):
+        if value is None:
+            return value
+        elif dialect.name == 'postgresql':
+            return str(value)
+        else:
+            if not isinstance(value, uuid.UUID):
+                return "%.32x" % uuid.UUID(value).int
+            else:
+                # hexstring
+                return "%.32x" % value.int
+
+    def process_result_value(self, value, dialect):
+        if value is None:
+            return value
+        else:
+            if not isinstance(value, uuid.UUID):
+                value = uuid.UUID(value)
+            return value
 
 class User(db.Model):
     """Flask-login User model for session management"""
     __tablename__ = 'user'
-    id = Column(UUIDType(binary=True), default=uuid.uuid4().hex, primary_key=True,
-                index=True)
+    id = Column(GUID(), primary_key=True, default=str(uuid.uuid4()))
     __table_args__ = {'extend_existing': True}
     active = Column(Boolean())
     username = Column(String(255), unique=True)
@@ -64,3 +98,4 @@ class User(db.Model):
             'password': self.password
             }
         return json.dumps(ret)
+
