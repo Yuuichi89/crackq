@@ -1,7 +1,6 @@
 """SQL database models for user management"""
 
 import json
-#import uuid
 
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
@@ -16,7 +15,6 @@ from sqlalchemy.types import (
     String,
     Unicode,
     )
-from sqlalchemy.dialects.postgresql import UUIDType
 from crackq.db import db
 
 class User(db.Model):
